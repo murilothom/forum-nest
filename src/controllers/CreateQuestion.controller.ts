@@ -11,6 +11,10 @@ const createQuestionBodySchema = z.object({
   content: z.string(),
 })
 
+const createQuestionValidationPipe = new ZodValidationPipe(
+  createQuestionBodySchema,
+)
+
 type CreateQuestionBodySchema = z.infer<typeof createQuestionBodySchema>
 
 @Controller('/questions')
@@ -21,8 +25,7 @@ export class CreateQuestionController {
   @Post()
   @HttpCode(201)
   async handle(
-    @Body(new ZodValidationPipe(createQuestionBodySchema))
-    body: CreateQuestionBodySchema,
+    @Body(createQuestionValidationPipe) body: CreateQuestionBodySchema,
     @CurrentUser() user: UserPayload,
   ) {
     const { content, title } = body
