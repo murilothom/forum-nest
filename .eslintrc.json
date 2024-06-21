@@ -1,6 +1,17 @@
 {
   "extends": "@rocketseat/eslint-config/node",
   "rules": {
-    "no-useless-constructor": "off"
+    "no-useless-constructor": "off",
+    "no-new": "off",
+    "max-len": [
+      "error",
+      {
+        "code": 170,
+        "tabWidth": 2,
+        "ignoreUrls": true,
+        "ignoreTemplateLiterals": true,
+        "ignoreRegExpLiterals": true
+      }
+    ]
   }
 }
