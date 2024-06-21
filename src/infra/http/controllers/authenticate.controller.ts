@@ -8,8 +8,8 @@ import {
 import { JwtService } from '@nestjs/jwt'
 import { z } from 'zod'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
-import { PrismaService } from '../prisma/prisma.service'
 import { compare } from 'bcryptjs'
+import { PrismaService } from '../../prisma/prisma.service'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
