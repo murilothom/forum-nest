@@ -29,8 +29,7 @@ export class CreateAccountController {
   @Post()
   @HttpCode(201)
   async handle(
-    @Body(createAccountValidationPipe)
-    body: CreateAccountBodySchema,
+    @Body(createAccountValidationPipe) body: CreateAccountBodySchema,
   ) {
     const { name, email, password } = body
 

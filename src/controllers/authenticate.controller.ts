@@ -30,11 +30,7 @@ export class AuthenticateController {
   async handle(@Body() body: AuthenticateBodySchema) {
     const { email, password } = body
 
-    const user = await this.prismaService.user.findUnique({
-      where: {
-        email,
-      },
-    })
+    const user = await this.prismaService.user.findUnique({ where: { email } })
 
     if (!user) {
       throw new UnauthorizedException('User credential do not match.')
@@ -46,9 +42,7 @@ export class AuthenticateController {
       throw new UnauthorizedException('User credential do not match.')
     }
 
-    const accessToken = this.jwtService.sign({
-      sub: user.id,
-    })
+    const accessToken = this.jwtService.sign({ sub: user.id })
 
     return {
       access_token: accessToken,
