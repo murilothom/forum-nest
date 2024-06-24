@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, Post, UseGuards } from '@nestjs/common'
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  UseGuards,
+} from '@nestjs/common'
 import { PrismaService } from '../../database/prisma/prisma.service'
 import { z } from 'zod'
 import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
@@ -32,11 +39,15 @@ export class CreateQuestionController {
     const { content, title } = body
     const userId = user.sub
 
-    await this.createQuestionUseCase.execute({
+    const result = await this.createQuestionUseCase.execute({
       title,
       content,
       authorId: userId,
       attachmentsIds: [],
     })
+
+    if (result.isLeft()) {
+      throw new BadRequestException()
+    }
   }
 }
