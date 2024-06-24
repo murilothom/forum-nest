@@ -4,11 +4,8 @@ import {
   Controller,
   HttpCode,
   Post,
-  UseGuards,
 } from '@nestjs/common'
-import { PrismaService } from '../../database/prisma/prisma.service'
 import { z } from 'zod'
-import { JwtAuthGuard } from '../../auth/jwt-auth.guard'
 import { CurrentUser } from '../../auth/current-user-decorator'
 import { UserPayload } from '../../auth/jtw.strategy'
 import { ZodValidationPipe } from '../pipes/zod-validation-pipe'
@@ -26,7 +23,6 @@ const createQuestionValidationPipe = new ZodValidationPipe(
 type CreateQuestionBodySchema = z.infer<typeof createQuestionBodySchema>
 
 @Controller('/questions')
-@UseGuards(JwtAuthGuard)
 export class CreateQuestionController {
   constructor(private readonly createQuestionUseCase: CreateQuestionUseCase) {}
 
