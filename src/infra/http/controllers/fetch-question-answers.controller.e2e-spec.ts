@@ -61,9 +61,9 @@ describe('Fetch Question Answers (E2E)', () => {
       .send()
 
     expect(response.statusCode).toBe(200)
-    expect(response.body.questions).toHaveLength(2)
+    expect(response.body.answers).toHaveLength(2)
     expect(response.body).toEqual({
-      questions: expect.arrayContaining([
+      answers: expect.arrayContaining([
         expect.objectContaining({ content: 'Answer 01' }),
         expect.objectContaining({ content: 'Answer 02' }),
       ]),
