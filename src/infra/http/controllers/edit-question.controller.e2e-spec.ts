@@ -97,7 +97,6 @@ describe('Edit Question (E2E)', () => {
 
     expect(questionOnDatabase).toBeTruthy()
     expect(questionOnDatabase?.authorId).toBe(user.id.toString())
-
     expect(attachmentsOnDatabase).toHaveLength(2)
     expect(attachmentsOnDatabase).toEqual(
       expect.arrayContaining([

@@ -7,24 +7,27 @@ import { JwtService } from '@nestjs/jwt'
 import { DatabaseModule } from '../../database/database.module'
 import { StudentFactory } from '../../../../test/factories/make-student'
 import { QuestionFactory } from '../../../../test/factories/make-question'
+import { AttachmentFactory } from '../../../../test/factories/make-attachment'
 
 describe('Answer Question (E2E)', () => {
   let app: INestApplication
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
+  let attachmentFactory: AttachmentFactory
   let prismaService: PrismaService
   let jwtService: JwtService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory],
+      providers: [StudentFactory, QuestionFactory, AttachmentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
 
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
     prismaService = moduleRef.get(PrismaService)
     jwtService = moduleRef.get(JwtService)
 
@@ -40,6 +43,9 @@ describe('Answer Question (E2E)', () => {
       authorId: user.id,
     })
 
+    const firsAttachment = await attachmentFactory.makePrismaAttachment()
+    const secondAttachment = await attachmentFactory.makePrismaAttachment()
+
     const questionId = question.id.toString()
 
     const response = await request(app.getHttpServer())
@@ -47,6 +53,10 @@ describe('Answer Question (E2E)', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         content: 'New answer',
+        attachments: [
+          firsAttachment.id.toString(),
+          secondAttachment.id.toString(),
+        ],
       })
 
     expect(response.statusCode).toBe(201)
@@ -57,6 +67,13 @@ describe('Answer Question (E2E)', () => {
       },
     })
 
+    const attachmentsOnDatabase = await prismaService.attachment.findMany({
+      where: {
+        answerId: answerOnDatabase?.id,
+      },
+    })
+
     expect(answerOnDatabase).toBeTruthy()
+    expect(attachmentsOnDatabase).toHaveLength(2)
   })
 })
