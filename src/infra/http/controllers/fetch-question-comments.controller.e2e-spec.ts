@@ -3,10 +3,10 @@ import { Test } from '@nestjs/testing'
 import request from 'supertest'
 import { JwtService } from '@nestjs/jwt'
 import { AppModule } from '../../app.module'
-import { StudentFactory } from '../../../../test/factories/make-student'
-import { QuestionFactory } from '../../../../test/factories/make-question'
+import { StudentFactory } from 'test/factories/make-student'
+import { QuestionFactory } from 'test/factories/make-question'
 import { DatabaseModule } from '../../database/database.module'
-import { QuestionCommentFactory } from '../../../../test/factories/make-question-comment'
+import { QuestionCommentFactory } from 'test/factories/make-question-comment'
 
 describe('Fetch Question Comments (E2E)', () => {
   let app: INestApplication
@@ -32,7 +32,9 @@ describe('Fetch Question Comments (E2E)', () => {
   })
 
   test('[GET] /questions/:questionId/comments', async () => {
-    const user = await studentFactory.makePrismaStudent()
+    const user = await studentFactory.makePrismaStudent({
+      name: 'John Doe',
+    })
 
     const accessToken = jwtService.sign({ sub: user.id.toString() })
 
@@ -64,8 +66,14 @@ describe('Fetch Question Comments (E2E)', () => {
     expect(response.body.comments).toHaveLength(2)
     expect(response.body).toEqual({
       comments: expect.arrayContaining([
-        expect.objectContaining({ content: 'Comment 01' }),
-        expect.objectContaining({ content: 'Comment 02' }),
+        expect.objectContaining({
+          content: 'Comment 01',
+          authorName: 'John Doe',
+        }),
+        expect.objectContaining({
+          content: 'Comment 02',
+          authorName: 'John Doe',
+        }),
       ]),
     })
   })
