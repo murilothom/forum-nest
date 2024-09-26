@@ -1,5 +1,5 @@
 import { Student } from '@/domain/forum/enterprise/entities/student'
-import { DomainEvents } from '@/core/events/domaint-events'
+import { DomainEvents } from '@/core/events/domain-events'
 import { StudentsRepository } from '@/domain/forum/application/repositories/students-repository'
 
 export class InMemoryStudentsRepository implements StudentsRepository {

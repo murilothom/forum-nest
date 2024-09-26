@@ -1,7 +1,7 @@
 import { QuestionsRepository } from '@/domain/forum/application/repositories/question-repository'
 import { Question } from '@/domain/forum/enterprise/entities/question'
 import { PaginationParams } from '@/core/repositories/pagination-params'
-import { DomainEvents } from '../../src/core/events/domaint-events'
+import { DomainEvents } from '../../src/core/events/domain-events'
 import { QuestionDetails } from '../../src/domain/forum/enterprise/entities/value-objects/question-details'
 import { InMemoryStudentsRepository } from './in-memory-students-repository'
 import { InMemoryAttachmentsRepository } from './in-memory-attachments-repository'

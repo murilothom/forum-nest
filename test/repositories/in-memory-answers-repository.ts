@@ -1,8 +1,8 @@
 import { AnswersRepository } from '@/domain/forum/application/repositories/answers-repository'
 import { Answer } from '@/domain/forum/enterprise/entities/answer'
 import { AnswerAttachmentsRepository } from '@/domain/forum/application/repositories/answer-attachments-repository'
-import { DomainEvents } from '../../src/core/events/domaint-events'
-import { PaginationParams } from '../../src/core/repositories/pagination-params'
+import { DomainEvents } from '@/core/events/domain-events'
+import { PaginationParams } from '@/core/repositories/pagination-params'
 
 export class InMemoryAnswersRepository implements AnswersRepository {
   public items: Answer[] = []
